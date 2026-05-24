@@ -1,0 +1,8 @@
+static/*
+!static/.gitkeep
+
+node_modules
+dist
+dist-ssr
+*.local
+

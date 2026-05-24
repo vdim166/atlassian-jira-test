@@ -1,0 +1,36 @@
+modules:
+  jira:projectPage:
+    - key: jira-project-assistant-page
+      resource: main
+      resolver:
+        function: resolver
+      title: Project Assistant
+      icon: https://developer.atlassian.com/platform/forge/images/icons/issue-panel-icon.svg
+
+  function:
+    - key: resolver
+      handler: index.handler
+
+resources:
+  - key: main
+    path: static
+
+permissions:
+  scopes:
+    - read:jira-work
+    - write:jira-work
+    - read:jira-user
+  content:
+    styles:
+      - unsafe-inline
+    scripts:
+      - unsafe-inline
+      - unsafe-hashes
+      - unsafe-eval
+
+app:
+  runtime:
+    name: nodejs22.x
+    memoryMB: 256
+    architecture: arm64
+  id: ari:cloud:ecosystem::app/c876c95c-8817-453f-8398-081d71016993

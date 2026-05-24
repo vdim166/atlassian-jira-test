@@ -1,0 +1,27 @@
+services:
+  app:
+    build: .
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/app
+      - /app/node_modules
+    environment:
+      - VITE_USE_MOCK=true
+      - CHOKIDAR_USEPOLLING=true
+    command: npm run dev -- --host 0.0.0.0 --port 3000
+
+  forge-tunnel:
+    build: .
+    profiles:
+      - forge
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app
+      - /app/node_modules
+    environment:
+      - FORGE_TUNNEL_PORT=8000
+    command: sh -c "npm run build:ui && npx forge tunnel"
+    stdin_open: true
+    tty: true
