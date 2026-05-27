@@ -24,8 +24,8 @@ import type { IssueView } from "../shared/types";
 import { useAppStore } from "../store/useAppStore";
 import { AssigneeFixModal } from "./AssigneeFixModal";
 import { PriorityFixModal } from "./PriorityFixModal";
-import { view } from "@forge/bridge";
 import { ROWS_PER_PAGE } from "../shared/constants";
+import { router } from "@forge/bridge";
 
 export function IssuesTable() {
   const { issues, loading, errors } = useAppStore();
@@ -41,14 +41,6 @@ export function IssuesTable() {
     open: boolean;
     issue: IssueView | null;
   }>({ open: false, issue: null });
-
-  const [siteUrl, setSiteUrl] = useState("");
-
-  useEffect(() => {
-    view.getContext().then((ctx) => {
-      setSiteUrl(ctx.siteUrl);
-    });
-  }, []);
 
   const handleFix = (issue: IssueView) => {
     if (issue.problemType === "unassigned") {
@@ -131,8 +123,8 @@ export function IssuesTable() {
                 </TableCell>
                 <TableCell>
                   <Link
-                    href={`${siteUrl}/browse/${issue.key}`}
-                    target="_blank"
+                    component="button"
+                    onClick={() => router.open(`/browse/${issue.key}`)}
                     rel="noopener noreferrer"
                     underline="hover"
                     variant="body2"
