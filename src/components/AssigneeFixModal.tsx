@@ -58,7 +58,11 @@ export function AssigneeFixModal({
               onClick={() => setSelectedId(user.accountId)}
             >
               <ListItemAvatar>
-                <Avatar sx={{ width: 32, height: 32 }}>
+                <Avatar
+                  src={user.avatarUrls?.["24x24"]}
+                  alt={user.displayName}
+                  sx={{ width: 32, height: 32 }}
+                >
                   {user.displayName.charAt(0)}
                 </Avatar>
               </ListItemAvatar>

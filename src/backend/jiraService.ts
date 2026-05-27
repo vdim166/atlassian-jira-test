@@ -13,7 +13,7 @@ import type {
 import { computeStats, toIssueView } from "./issueUtils";
 import { RequestInit } from "node-fetch";
 
-const MAX_RESULTS = 100;
+const SEARCH_PAGE_SIZE = 100;
 
 async function requestJiraVoid(path: Route, init?: RequestInit): Promise<void> {
   const response = await api.asUser().requestJira(path, init);
@@ -65,7 +65,7 @@ export async function fetchProjectIssues(
   do {
     const body: Record<string, unknown> = {
       jql: `project = "${projectKey}" ORDER BY updated DESC`,
-      maxResults: MAX_RESULTS,
+      maxResults: SEARCH_PAGE_SIZE,
       fields,
     };
     if (nextPageToken) {
@@ -86,9 +86,9 @@ export async function fetchProjectIssues(
       data.isLast === false && data.nextPageToken
         ? data.nextPageToken
         : undefined;
-  } while (nextPageToken && collected.length < MAX_RESULTS);
+  } while (nextPageToken);
 
-  const issues = collected.slice(0, MAX_RESULTS).map(toIssueView);
+  const issues = collected.map(toIssueView);
   return { issues, stats: computeStats(issues) };
 }
 
